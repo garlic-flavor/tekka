@@ -18,6 +18,13 @@ Class {
 	#category : 'Tekka-Core'
 }
 
+{ #category : #resources }
+TekkaEngine class >> convertToUTF8Dic [
+	^ OSSUnixSubprocess new
+		shellCommand: 'iconv -f EUC-JP -t UTF-8 ''', self skkDicFilename fullName, ''' > ''', self utf8skkDicFilename fullName, '''';
+		runAndWait
+]
+
 { #category : #'sole instance' }
 TekkaEngine class >> current [
 	^ Current
@@ -220,6 +227,11 @@ TekkaEngine class >> skkDicFilename [
 { #category : #resources }
 TekkaEngine class >> skkDicURL [
 	^ 'http://openlab.jp/skk/dic/SKK-JISYO.L.gz' asUrl
+]
+
+{ #category : #resources }
+TekkaEngine class >> utf8skkDicFilename [
+	^ self skkDicFilename, 'utf8'
 ]
 
 { #category : #extensions }
