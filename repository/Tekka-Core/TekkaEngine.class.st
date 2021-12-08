@@ -165,12 +165,12 @@ TekkaEngine class >> installSkkDictionary [
 						,
 							'Do you want to download SKK-JISYO.L? SKK-JISYO.L is distributed under GPL. Please see http://www.gnu.org/licenses/gpl.html for details.' ])
 		ifTrue: [ self downloadSkkDic ].
-	self skkDicFilename exists
+	self utf8skkDicFilename exists ifFalse: [
+		self convertToUTF8Dic
+	].
+	self utf8skkDicFilename exists
 		ifTrue: [ | stream |
-			self skkDicFilename
-				binaryReadStreamDo: [ :binary | 
-					stream := (EUCJPTextConverter new
-						convertFromSystemString: binary upToEnd asString) readStream ].
+			stream := self utf8skkDicFilename readStreamEncoded: 'UTF8'.
 			[ stream atEnd ]
 				whileFalse: [ | line |
 					line := stream upTo: Character lf.
@@ -186,7 +186,9 @@ TekkaEngine class >> installSkkDictionary [
 									(variant includes: $;)
 										ifTrue: [ variant := variant copyFrom: 1 to: (variant indexOf: $;) - 1 ].
 									variants nextPut: variant ].
-							dict at: key put: variants contents ] ] ]
+							dict at: key put: variants contents ] ].
+			self utf8skkDicFilename delete.
+		]
 		ifFalse: [ dict at: '.' put: (Array with: '。').
 			dict at: ',' put: (Array with: '、') ].
 	^ SkkDictionary := dict
