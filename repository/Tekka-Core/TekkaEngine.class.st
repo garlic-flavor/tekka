@@ -39,7 +39,7 @@ TekkaEngine class >> downloadSkkDic [
 		on:
 			(ZnClient new
 				beOneShot;
-				get: 'http://openlab.jp/skk/dic/SKK-JISYO.L.gz' asUrl).
+				get: self skkDicURL).
 	self skkDicFilename
 		binaryWriteStreamDo: [ :writeStream | 
 			[ gzipStream atEnd ]
@@ -226,7 +226,7 @@ TekkaEngine class >> skkDicFilename [
 
 { #category : #resources }
 TekkaEngine class >> skkDicURL [
-	^ 'http://openlab.jp/skk/dic/SKK-JISYO.L.gz' asUrl
+	^ 'https://skk-dev.github.io/dict/SKK-JISYO.L.gz' asUrl
 ]
 
 { #category : #resources }
