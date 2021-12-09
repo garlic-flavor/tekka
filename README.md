@@ -1,3 +1,26 @@
+# !!! CAUTION !!!
+_THIS IS A FOR MY OWN FORK !!!_
+1. On Pharo 10.0 EUCJPTextConverter class seems missing.
+2. My fork goes like below.
+   1. Change SKK-JISYO from openlab to github (because of my fav).
+   2. After downloading of SKK-JISYO, convert it to UTF-8 with iconv.
+3. My excuse. (and notes)
+   1. I can't find the migration of EUCJPTextConverter class.
+   2. I use iconv of system.
+   3. I use OSSubprocess to invoke shell.
+   3. A warning may occur while loading process, like 'you must resolve dependencies...'. This comes from OSSubprocess. and no harm. so just press 'Proceed'.
+   4. _I test this only on my Mac and Pharo10.0._
+   5. I make a temporary file named SKK-JISYO.L.utf8. First, I tried to do without a temporary file, made iconv to output to stdout, then redirect to Pharo's stream. but, iconv hanged. I couldn't solve this.
+
+## My version
+```
+Metacello new
+	baseline: 'Tekka';
+	repository: 'github://garlic-flavor/tekka:main/repository';
+	load.
+```
+
+
 # Overview
 Tekka is a simple and mode-less Japanese input method in Squeak/Pharo environment.
 It's fully implemented in Smalltalk.
